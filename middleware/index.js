@@ -9,7 +9,7 @@ module.exports = {
 
     isAdmin : (req, res, next) => {
         if (req.user.isAdmin) {
-            next()
+            next();
         }
         else {
             req.flash('error', 'This site is now read only thanks to spam and trolls.');
