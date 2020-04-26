@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>MMH College Accounts App</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link rel="stylesheet" href="/stylesheets/main.css">
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+          <div class="navbar-header">
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">MMH College</a>
+          </div>
+          <div id="navbarSupportedContent" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav mr-auto">
+              <li class="<%= typeof page !== 'undefined' && page === 'courses' ? 'active' : '' %>">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <% if(!currentUser){ %>
+                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+                      <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+                      <a class="nav-link" href="/register">Sign Up</a>
+                    </li>
+                <% } else { %>
+                    <li>
+                      <a class="nav-link" href="#">Signed In As <%= currentUser.username %></a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                <% } %>
+            </ul>
+          </div>
+      </div>
+  </nav>
+  
+  <div class="container">
+     <% if(error && error.length > 0) { %>
+       <div class="alert alert-danger"><p><%=error %></p></div>
+     <% } %>
+     
+     <% if(success && success.length > 0) { %>
+       <div class="alert alert-success"><p><%= success %></p></div>
+     <% } %>
+  </div>
+  <div class="container">
