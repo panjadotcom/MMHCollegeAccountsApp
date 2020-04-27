@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var AccountSchema = new mongoose.Schema({
     name : String,
-    accNumber : String,
+    accnumber : String,
     description : String,
     payment : [
         {

@@ -1,0 +1,22 @@
+<%- include("../partials/header")%>
+<h1 class="text-center">Available accounts</h1>
+
+<div class="row justify-content-center">
+    <% accounts.forEach((account) => { %>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="card text-center">
+                <h5 class="card-header"><%= account.name %></h5>
+                <div class="card-body">
+                    <p class="card-text"><%= account.accnumber %></p>
+                    <a href="/accounts/<%= account._id %>" class="btn btn-primary btn-sm">View More</a>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-4">
+        <a href="/accounts/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Account</a>
+    </div>
+</div>
+<%- include("../partials/footer")%>

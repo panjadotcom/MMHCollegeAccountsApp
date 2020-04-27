@@ -1,0 +1,22 @@
+<%- include("../partials/header")%>
+<div class="jumbotron">
+    <h1 class="display-4">Account details for <%= account.name %></h1>
+    <p class="lead"><%= account.description %></p>
+    <hr class="my-4">
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <p>Account Number : <em><%= account.accnumber %> </em> </p>
+        </div>
+    </div>
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <a href="/accounts/<%= account._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>
+        </div>
+        <div class="p-2 bd-highlight">
+            <form action="/accounts/<%= account._id%>?_method=DELETE" method="post" class="d-flex-inline">
+                <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+            </form>
+        </div>
+    </div>
+  </div>
+<%- include("../partials/footer")%>

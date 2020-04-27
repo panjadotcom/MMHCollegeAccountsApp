@@ -26,6 +26,9 @@
               <li class="<%= typeof page !== 'undefined' && page === 'students' ? 'active' : '' %>">
                 <a class="nav-link" href="/students">Students <span class="sr-only">(current)</span></a>
               </li>
+              <li class="<%= typeof page !== 'undefined' && page === 'accounts' ? 'active' : '' %>">
+                <a class="nav-link" href="/accounts">Accounts <span class="sr-only">(current)</span></a>
+              </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <% if(!currentUser){ %>

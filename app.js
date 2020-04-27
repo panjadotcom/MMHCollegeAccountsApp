@@ -18,6 +18,7 @@ var User = require("./models/user");
 var indexRoutes     = require("./routes/index");
 var courseRoutes    = require("./routes/courses");
 var studentRoute    = require("./routes/students");
+var accountRoute    = require("./routes/accounts");
 
 // INIT app
 var app = express();
@@ -63,6 +64,7 @@ app.use( (req, res, next)=> {
 app.use("/", indexRoutes);
 app.use("/courses", courseRoutes);
 app.use("/students", studentRoute);
+app.use("/accounts", accountRoute);
 
 // Start the server.
 app.listen(process.env.PORT, process.env.IP, () => {

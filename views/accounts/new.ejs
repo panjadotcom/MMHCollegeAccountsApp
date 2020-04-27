@@ -1,0 +1,28 @@
+<%- include("../partials/header")%>
+<!-- create new account -->
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="text-center">Enter new account details</h1>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="/accounts" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="account[name]" id="account-name-new" placeholder="Account Name">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="account[accnumber]" id="account-accnumber-new" placeholder="Account Number">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="account[description]" id="account-description-new" placeholder="Account Description">
+                </div>
+                <div class="form-group">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<%- include("../partials/footer")%>
