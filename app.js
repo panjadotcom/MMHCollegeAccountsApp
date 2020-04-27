@@ -17,6 +17,7 @@ var User = require("./models/user");
 // import routes
 var indexRoutes     = require("./routes/index");
 var courseRoutes    = require("./routes/courses");
+var studentRoute    = require("./routes/students");
 
 // INIT app
 var app = express();
@@ -29,12 +30,13 @@ app.use(flash());
 
 
 // Connect to database
-mongoose.connect("mongodb://localhost:27017/mmhcollege", { useNewUrlParser: true , useUnifiedTopology: true , useFindAndModify: false });
+// export DATABASE_URL="mongodb://localhost:27017/mmhcollege"
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true , useUnifiedTopology: true , useFindAndModify: false });
 
 
 // import seedDB file to seed the database with default data.
-//var seedDB = require("./seeds");
-//seedDB(); // Seed the database 
+// var seedDB = require("./seeds");
+// seedDB(); // Seed the database 
 
 // Passport configurations
 app.use(session({
@@ -60,8 +62,9 @@ app.use( (req, res, next)=> {
 
 app.use("/", indexRoutes);
 app.use("/courses", courseRoutes);
+app.use("/students", studentRoute);
 
 // Start the server.
-app.listen(8080, () => {
+app.listen(process.env.PORT, process.env.IP, () => {
     console.log("MMH College salary server up and running");
 });

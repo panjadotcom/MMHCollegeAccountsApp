@@ -1,0 +1,26 @@
+<%- include("../partials/header")%>
+<!-- create new student -->
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="text-center">Edit <%= student.name %></h1>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-6">
+            <form action="/students/<%= student._id%>?_method=PUT" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="student[name]" id="student-name-edit" value="<%= student.name%>">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="student[image]" id="student-image-edit" value="<%= student.image%>">
+                </div>
+                <div class="form-group">
+                    <textarea name="student[description]" id="student-description-edit" cols="30" rows="10" class="form-control"><%= student.description %></textarea>
+                </div>
+                <div class="form-group">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+<%- include("../partials/footer")%>

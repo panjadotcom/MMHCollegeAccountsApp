@@ -21,7 +21,10 @@
           <div id="navbarSupportedContent" class="collapse navbar-collapse">
             <ul class="nav navbar-nav mr-auto">
               <li class="<%= typeof page !== 'undefined' && page === 'courses' ? 'active' : '' %>">
-                <a class="nav-link" href="/courses">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/courses">Courses <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="<%= typeof page !== 'undefined' && page === 'students' ? 'active' : '' %>">
+                <a class="nav-link" href="/students">Students <span class="sr-only">(current)</span></a>
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

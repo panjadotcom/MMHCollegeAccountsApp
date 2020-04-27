@@ -1,0 +1,20 @@
+<%- include("../partials/header")%>
+<h1 class="text-center">Student List</h1>
+
+<div class="row justify-content-center">
+    <% students.forEach((student) => { %>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="card text-center">
+                <img src="<%= student.image%>" alt="" class="img-responsive card-img-top">
+                <h5 class="card-title"><%= student.name %></h5>
+                <a href="/students/<%= student._id %>" class="btn btn-primary btn-sm card-title">View More</a>
+            </div>
+        </div>
+    <% }) %>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-4">
+        <a href="/students/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Student</a>
+    </div>
+</div>
+<%- include("../partials/footer")%>
