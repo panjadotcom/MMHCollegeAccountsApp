@@ -10,10 +10,10 @@
     </div>
     <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
-            <a href="/accounts/<%= account._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>
+            <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>
         </div>
         <div class="p-2 bd-highlight">
-            <form action="/accounts/<%= account._id%>?_method=DELETE" method="post" class="d-flex-inline">
+            <form action="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id%>?_method=DELETE" method="post" class="d-flex-inline">
                 <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
             </form>
         </div>

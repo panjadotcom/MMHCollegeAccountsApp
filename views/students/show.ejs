@@ -6,6 +6,20 @@
             <div class="card-body">
                 <h2 class="card-title"><a href="#"><%= student.name %></a></h2>
                 <p class="card-text"><%- student.description %></p>
+                <p class="card-text">
+                    <strong>Account Details : </strong>
+                    <% if( ( typeof student.account !== 'undefined' ) && ( typeof student.account.id !== 'undefined' ) ) { %>
+                        <a href="/students/<%= student._id %>/accounts/<%= student.account.id %>"><%= student.account.name%></a>
+                    <% } else { %>
+                        <a href="/students/<%= student._id %>/accounts/new"> Create new </a>
+                    <% } %>
+                </p>
+                <p class="card-text">Enrolled Courses:</p>
+                <ul class="card-ul">
+                <% student.courses.forEach((course) => { %>
+                    <li class="card-li"><p class="card-text"><%= course.name %></p></li>
+                <% }); %>
+                </ul>
                 <div class="d-flex flex-row bd-highlight mb-3">
                     <div class="p-2 bd-highlight">
                         <a href="/students/<%= student._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>

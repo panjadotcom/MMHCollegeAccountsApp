@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
+var validator = require("validator");
 var Student = require("../models/student");
+var Account = require("../models/account");
+var Course = require("../models/course");
 var middleware = require("../middleware");
 var { isLoggedIn, isAdmin } = middleware;
 
@@ -19,7 +22,13 @@ router.get("/", (req, res) => {
 
 // NEW render new page to create new student
 router.get("/new", isLoggedIn, (req, res) => {
-    res.render("students/new");
+    Course.find({}, (err, courses ) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("students/new", { courses : courses });
+        }
+    });
 });
 
 // CREATE new student to be created and updated in DB:
@@ -28,14 +37,34 @@ router.post("/", isLoggedIn, (req, res)=>{
         if (err) {
             req.flash("error", "New student cannot be created error : " + err.message);
             console.log(err);
+            res.redirect("back");
+        } else {
+            if( (typeof req.body.course) !== "undefined" ){
+                var itemProcessed = 0;
+                coursesIds = Object.keys(req.body.course);
+                coursesIds.forEach(courseid => {
+                    Course.findById(courseid, (err, course) => {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            student.courses.push(course);
+                        }
+                        itemProcessed++;
+                        if (itemProcessed === coursesIds.length) {
+                            student.save();
+                        }
+                    });
+                });
+            }
+            res.redirect("/students");
         }
-        res.redirect("/students");
     });
 });
 
 // SHOW route: This will show the details of the student.
 router.get("/:student_id", (req, res) => {
-    Student.findById(req.params.student_id, (err, student) => {
+    Student.findById(req.params.student_id).populate("courses").exec( (err, student) => {
         if (err) {
             console.log(err);
             req.flash("error", "student not found " + err.message );
@@ -48,14 +77,20 @@ router.get("/:student_id", (req, res) => {
 
 // EDIT route: render edit page with details of the couse_id
 router.get("/:student_id/edit", isLoggedIn, (req, res) =>{
-    Student.findById(req.params.student_id, (err, student) => {
+    Student.findById(req.params.student_id).populate("courses").exec( (err, student) => {
         if(err) {
             console.log(err);
             req.flash("error", "student not found " + err.message);
             res.redirect('back');
         }
         else {
-            res.render("students/edit", { student : student });
+            Course.find({}, (err, courses ) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("students/edit", { student : student , courses : courses});
+                }
+            });
         }
     });
 });
@@ -69,19 +104,53 @@ router.put("/:student_id", isLoggedIn, (req, res) =>{
             res.redirect("back");
         }
         else {
+            if( (typeof req.body.course) !== "undefined" ){
+                var currArray = student.courses.splice(0, student.courses.length);
+                var itemProcessed = 0;
+                coursesIds = Object.keys(req.body.course);
+                coursesIds.forEach(courseid => {
+                    Course.findById(courseid, (err, course) => {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            student.courses.push(course);
+                        }
+                        itemProcessed++;
+                        if (itemProcessed === coursesIds.length) {
+                            student.save();
+                        }
+                    });
+                });
+                while (currArray.length > 0) {
+                    console.log(currArray.pop());
+                }
+            }
             res.redirect("/students/" + student._id);
+            
         }
     });
 });
 
 // DESTROY route : this will destroy the route.
 router.delete("/:student_id", isLoggedIn, (req, res) => {
-    Student.findByIdAndRemove(req.params.student_id, (err) => {
+    Student.findByIdAndRemove(req.params.student_id, (err, student) => {
         if (err) {
             console.log(err);
             req.flash("error", "Could not delete the student : " + err.message);
+            res.redirect("/students");
+        } else {
+            // Delete connected account also ?.
+            Account.findByIdAndRemove(student.account.id, (err, account) => {
+                if (err) {
+                    console.log(err);
+                    res.redirect("/students");
+                } else {
+                    req.flash("success", "Student " + student.name +" deleted successfully");
+                    res.redirect("/students");
+                }
+            });
         }
-        res.redirect("/students");
     });
 });
 

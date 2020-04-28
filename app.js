@@ -1,12 +1,12 @@
 // import  packages
-var express         = require("express"),
-    session         = require("express-session"),
-    flash           = require("express-flash"),
-	bodyparser      = require("body-parser"),
-    mongoose        = require("mongoose"),
-    passport        = require("passport"),
-    localStrategy   = require("passport-local"),
-    methodOverride  = require("method-override");
+var express             = require("express"),
+    session             = require("express-session"),
+    flash               = require("express-flash"),
+    bodyparser          = require("body-parser"),
+    mongoose            = require("mongoose"),
+    passport            = require("passport"),
+    localStrategy       = require("passport-local"),
+    methodOverride      = require("method-override");
     
 
 
@@ -65,6 +65,7 @@ app.use("/", indexRoutes);
 app.use("/courses", courseRoutes);
 app.use("/students", studentRoute);
 app.use("/accounts", accountRoute);
+app.use("/:acc_parent_type/:acc_parent_id/accounts", accountRoute);
 
 // Start the server.
 app.listen(process.env.PORT, process.env.IP, () => {
