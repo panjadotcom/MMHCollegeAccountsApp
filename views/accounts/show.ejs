@@ -5,7 +5,7 @@
     <hr class="my-4">
     <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
-            <p>Account Number : <em><%= account.accnumber %> </em> </p>
+            <p>Account Number : <em><%= account.number %> </em> </p>
         </div>
     </div>
     <div class="d-flex flex-row bd-highlight mb-3">
@@ -16,6 +16,49 @@
             <form action="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id%>?_method=DELETE" method="post" class="d-flex-inline">
                 <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
             </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <p class="text-center"><strong>Time</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="text-center"><strong>From</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="text-center"><strong>To</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="text-center"><strong>transaction Id</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="text-center"><strong>Amount</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="text-center"><strong>Description</strong></p>
+        </div>
+        <% account.payments.forEach((payment) => { %>
+            <div class="col-2">
+                <p class="text-center"><%= payment.timeTxn.toDateString() %></p>
+            </div>
+            <div class="col-2">
+                <p class="text-center"><%= payment.fromAcc.accName%></p>
+            </div>
+            <div class="col-2">
+                <p class="text-center"><%= payment.toAcc.accName %></p>
+            </div>
+            <div class="col-2">
+                <p class="text-center"><%= payment.idTxn %></p>
+            </div>
+            <div class="col-2">
+                <p class="text-center"><%= payment.amount %></p>
+            </div>
+            <div class="col-2">
+                <p class="text-center"><%= payment.description %></p>
+            </div>
+        <% }); %>
+        <div class="col-4">
+            <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id %>/payments/new" class="btn btn-primary btn-lg btn-block">Add New Payment</a>
         </div>
     </div>
   </div>

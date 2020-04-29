@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var validator = require("validator");
-var Student = require("../models/student");
-var Account = require("../models/account");
-var Course = require("../models/course");
-var middleware = require("../middleware");
+var Student = require("../../models/student");
+var Account = require("../../models/account");
+var Course = require("../../models/course");
+var middleware = require("../../middleware");
 var { isLoggedIn, isAdmin } = middleware;
 
 // INDEX Route :  show all the student list.

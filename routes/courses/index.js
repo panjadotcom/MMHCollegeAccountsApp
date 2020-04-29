@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var Course = require("../models/course");
-var middleware = require("../middleware");
+var Course = require("../../models/course");
+var middleware = require("../../middleware");
 var { isLoggedIn, isAdmin } = middleware;
 
 // INDEX Show all Courses.

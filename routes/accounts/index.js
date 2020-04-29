@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router({mergeParams : true});
-var Account = require("../models/account");
-var Student = require("../models/student");
-var middleware = require("../middleware");
+var Account = require("../../models/account");
+var Student = require("../../models/student");
+var middleware = require("../../middleware");
 var { isLoggedIn, isAdmin , isAccountPathValid} = middleware;
 
 // INDEX Show all Accounts.
@@ -50,13 +50,12 @@ router.post("/", isAccountPathValid, isLoggedIn, (req, res)=>{
                 }
             });
         }
-        
     });
 });
 
 // SHOW route: This will show the details of the account.
 router.get("/:account_id", (req, res) => {
-    Account.findById(req.params.account_id, (err, account) => {
+    Account.findById(req.params.account_id).populate("payments").exec( ( err, account) => {
         if (err) {
             console.log(err);
             req.flash("error", "Account not found " + err.message );

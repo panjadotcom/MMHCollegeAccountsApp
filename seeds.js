@@ -19,6 +19,18 @@ function seedDB() {
                             console.log(err);
                         }
                         else {
+                            var account = {
+                                name : "ADMIN",
+                                number : "1234567890",
+                                description : "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
+                            };
+                            Account.create(account, (err, account) => {
+                                if (err) {
+                                    console.log(err)
+                                } else {
+                                    console.log("Account Created");
+                                }
+                            });
                             for (let index = 1; index < 9; index++) {
                                 var student = {
                                     name : "Student " + index,
@@ -32,7 +44,7 @@ function seedDB() {
                                         console.log("Student Created");
                                         var account = {
                                             name : "Account " + index,
-                                            accnumber : index * 1000 + index,
+                                            number : index * 1000 + index,
                                             description : "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
                                         };
                                         Account.create(account, (err, account) => {

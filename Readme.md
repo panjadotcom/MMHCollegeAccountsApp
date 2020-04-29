@@ -1,11 +1,11 @@
 This is used to update 
 the account details etc .
 
-environment vaariables : 
-export DATABASE_URL="mongodb://localhost:27017/mmhcollege"                         
-export PORT=8080
-export IP="127.0.0.1"
-export ADMIN_CODE="PANJADOTCOM"
+following environment variables needs to set: 
+export DATABASE_URL=<mongodb-url>
+export PORT=<server port>
+export IP=<server ip>
+export ADMIN_CODE=<ADMIN KEY to match with admin user>
 
 <!-- to push commits to github -->
 git push -u origin master

@@ -7,7 +7,7 @@
             <div class="card text-center">
                 <h5 class="card-header"><%= account.name %></h5>
                 <div class="card-body">
-                    <p class="card-text"><%= account.accnumber %></p>
+                    <p class="card-text"><%= account.number %></p>
                     <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id %>" class="btn btn-primary btn-sm">View More</a>
                 </div>
             </div>

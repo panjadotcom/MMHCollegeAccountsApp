@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var PaymentSchema = new mongoose.Schema({
     amount : Number,
     idTxn : String,
-    descrtiption : String,
+    description : String,
     timeTxn : { type: Date, default: Date.now },
     fromAcc : {
         id : {

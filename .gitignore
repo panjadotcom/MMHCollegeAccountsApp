@@ -3,3 +3,6 @@ node_modules
 
 # lock file 
 package-lock.json
+
+#Environment file:
+.env

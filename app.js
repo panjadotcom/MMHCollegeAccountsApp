@@ -8,7 +8,8 @@ var express             = require("express"),
     localStrategy       = require("passport-local"),
     methodOverride      = require("method-override");
     
-
+// load env 
+require("dotenv").config();
 
 // import models
 var User = require("./models/user");
@@ -19,6 +20,7 @@ var indexRoutes     = require("./routes/index");
 var courseRoutes    = require("./routes/courses");
 var studentRoute    = require("./routes/students");
 var accountRoute    = require("./routes/accounts");
+var paymentRoute    = require("./routes/payments");
 
 // INIT app
 var app = express();
@@ -66,6 +68,8 @@ app.use("/courses", courseRoutes);
 app.use("/students", studentRoute);
 app.use("/accounts", accountRoute);
 app.use("/:acc_parent_type/:acc_parent_id/accounts", accountRoute);
+app.use("/accounts/:account_id/payments", paymentRoute);
+app.use("/:acc_parent_type/:acc_parent_id/accounts/:account_id/payments", paymentRoute);
 
 // Start the server.
 app.listen(process.env.PORT, process.env.IP, () => {

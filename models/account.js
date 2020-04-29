@@ -2,9 +2,9 @@ var mongoose = require("mongoose");
 
 var AccountSchema = new mongoose.Schema({
     name : String,
-    accnumber : String,
+    number : String,
     description : String,
-    payment : [
+    payments : [
         {
             type : mongoose.Schema.Types.ObjectId,
             ref  : "Payment"
