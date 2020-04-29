@@ -3,7 +3,7 @@ var router = express.Router({mergeParams : true});
 var Account = require("../models/account");
 var Student = require("../models/student");
 var middleware = require("../middleware");
-var { isLoggedIn, isAdmin } = middleware;
+var { isLoggedIn, isAdmin , isAccountPathValid} = middleware;
 
 // INDEX Show all Accounts.
 router.get("/", (req, res) => {
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 // NEW render new page to create new account
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", isAccountPathValid, isLoggedIn, (req, res) => {
     res.render("accounts/new", {
         acc_parent_type : req.params.acc_parent_type,
         acc_parent_id: req.params.acc_parent_id
@@ -31,7 +31,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 // CREATE new account to be created and updated in DB:
-router.post("/", isLoggedIn, (req, res)=>{
+router.post("/", isAccountPathValid, isLoggedIn, (req, res)=>{
     Account.create(req.body.account, (err, account) => {
         if (err) {
             req.flash("error", "New account cannot be created error : " + err.message);
@@ -39,25 +39,16 @@ router.post("/", isLoggedIn, (req, res)=>{
             res.redirect("back");
         }
         else {
-            // check whether request came from parent 
-            if ( (typeof req.params.acc_parent_type !== 'undefined') && (typeof req.params.acc_parent_id !== 'undefined') ) {
-                // add account to the student model also.
-                Student.findById(req.params.acc_parent_id, (err, student) => {
-                    if (err) {
-                        console.log(err);
-                        req.flash("error", "Student not found error : " + err.message);
-                        res.redirect("back");
-                    } else {
-                        student.account.id = account._id;
-                        student.account.name = account.name;
-                        student.save();
-                        res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id);
-                    }
-                });
-            } else {
-                // simply display the accounts details
-                res.redirect("/accounts");        
-            }
+            Student.findById(req.params.acc_parent_id, (err, student) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    student.account.id = account._id;
+                    student.account.name = account.name;
+                    student.save();
+                    res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id);
+                }
+            });
         }
         
     });
@@ -81,7 +72,7 @@ router.get("/:account_id", (req, res) => {
 });
 
 // EDIT route: render edit page with details of the couse_id
-router.get("/:account_id/edit", isLoggedIn, (req, res) =>{
+router.get("/:account_id/edit", isAccountPathValid, isLoggedIn, (req, res) =>{
     Account.findById(req.params.account_id, (err, account) => {
         if(err) {
             console.log(err);
@@ -99,7 +90,7 @@ router.get("/:account_id/edit", isLoggedIn, (req, res) =>{
 });
 
 // UPDATE route: this will update the details 
-router.put("/:account_id", isLoggedIn, (req, res) =>{
+router.put("/:account_id", isAccountPathValid, isLoggedIn, (req, res) =>{
     Account.findByIdAndUpdate(req.params.account_id, req.body.account, (err, account) => {
         if (err) {
             console.log(err);
@@ -107,44 +98,39 @@ router.put("/:account_id", isLoggedIn, (req, res) =>{
             res.redirect("back");
         }
         else {
-            res.redirect("/accounts/" + account._id);
+            res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id + "/accounts/" + account._id);
         }
     });
 });
 
 // DESTROY route : this will destroy the route.
-router.delete("/:account_id", isLoggedIn, (req, res) => {
-    if ( (typeof req.params.acc_parent_type !== 'undefined') && (typeof req.params.acc_parent_id !== 'undefined') ) {
-        if(req.params.acc_parent_type == 'students') {
-            // Delete accounte for student.
-            Account.findByIdAndRemove(req.params.account_id, (err) => {
-                if (err) {
-                    console.log(err);
-                    req.flash("error", "Could not delete the account : " + err.message);
-                    res.redirect("back");
-                } else {
-                    Student.findById(req.params.acc_parent_id, (err, student) => {
-                        if (err) {
-                            console.log(err);
-                            req.flash("error", "Student not found error : " + err.message);
-                            res.redirect("back");
-                        } else {
-                            student.account = {};
-                            student.save();
-                            res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id);
-                        }
-                    });
-                }
-            });
-        } else if(req.params.acc_parent_type == 'courses') {
-            req.flash("error", "Deleting account for course is not permitted.")
-            res.redirect("/courses");
-        } else {
-            req.flash("error", "Default deleting of account is not permitted");
-            res.redirect("back");
-        }
+router.delete("/:account_id", isAccountPathValid, isLoggedIn, (req, res) => {
+    if(req.params.acc_parent_type == 'students') {
+        // Delete accounte for student.
+        Account.findByIdAndRemove(req.params.account_id, (err) => {
+            if (err) {
+                console.log(err);
+                req.flash("error", "Could not delete the account : " + err.message);
+                res.redirect("back");
+            } else {
+                Student.findById(req.params.acc_parent_id, (err, student) => {
+                    if (err) {
+                        console.log(err);
+                        req.flash("error", "Student not found error : " + err.message);
+                        res.redirect("back");
+                    } else {
+                        student.account = {};
+                        student.save();
+                        res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id);
+                    }
+                });
+            }
+        });
+    } else if(req.params.acc_parent_type == 'courses') {
+        req.flash("error", "Deleting account for course is not permitted.")
+        res.redirect("/courses");
     } else {
-        req.flash("error", "To delete account use account holder's path");
+        req.flash("error", "Default deleting of account is not permitted");
         res.redirect("back");
     }
 });

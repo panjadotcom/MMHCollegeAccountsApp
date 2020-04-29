@@ -19,7 +19,7 @@
                 </div>
                 <% courses.forEach((course) => { %>
                     <div class="custom-control custom-switch form-group">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch<%= course._id %>" name="course[<%= course._id %>]" <% if(student.courses.some(e => e.name === course.name)) { %> checked <% } %> >
+                        <input type="checkbox" class="custom-control-input" id="customSwitch<%= course._id %>" name="course[<%= course._id %>]" <% if(student.courses.some(e => e._id.toString() === course._id.toString())) { %> checked <% } %> >
                         <label class="custom-control-label" for="customSwitch<%= course._id %>"><%= course.name %></label>
                     </div>
                 <% }) %>
