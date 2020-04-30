@@ -7,12 +7,20 @@
     </div>
     <div class="row mt-3 justify-content-center">
         <div class="col-md-6">
-            <form action="/students" method="post">
+            <form action="/students" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <input class="form-control" type="text" name="student[name]" id="student-name-new" placeholder="student Name">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="student[image]" id="student-image-new" placeholder="student image">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="studentImageNewArea">Image</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="studentImageNew" aria-describedby="studentImageNewArea" name="image" required accept="image/*" >
+                            <label class="custom-file-label" for="studentImageNew">Choose file</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <textarea name="student[description]" id="student-description-new" cols="30" rows="10" class="form-control" placeholder="student Description"></textarea>

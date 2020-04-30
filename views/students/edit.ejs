@@ -7,12 +7,20 @@
     </div>
     <div class="row mt-3 justify-content-center">
         <div class="col-md-6">
-            <form action="/students/<%= student._id%>?_method=PUT" method="post">
+            <form action="/students/<%= student._id%>?_method=PUT" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <input class="form-control" type="text" name="student[name]" id="student-name-edit" value="<%= student.name%>">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="student[image]" id="student-image-edit" value="<%= student.image%>">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="student-image-edit-area">Image</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="student-image-edit" aria-describedby="student-image-edit-area" name="image" accept="image/*" >
+                            <label class="custom-file-label" for="student-image-edit"><%= student.image%></label>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <textarea name="student[description]" id="student-description-edit" cols="30" rows="10" class="form-control"><%= student.description %></textarea>

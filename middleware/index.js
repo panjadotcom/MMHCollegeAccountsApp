@@ -37,7 +37,7 @@ module.exports = {
                     }
                 });
             } else {
-                console.log("Wrong path", eq.params.acc_parent_type, req.params.acc_parent_id);
+                console.log("Wrong path", req.params.acc_parent_type, req.params.acc_parent_id);
                 req.flash("error", "Wrong path to access account");
                 res.redirect("back");
             }

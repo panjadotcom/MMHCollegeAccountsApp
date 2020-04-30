@@ -1,11 +1,31 @@
-var express = require("express");
-var router = express.Router();
-var validator = require("validator");
-var Student = require("../../models/student");
-var Account = require("../../models/account");
-var Course = require("../../models/course");
-var middleware = require("../../middleware");
+var express     = require("express");
+var router      = express.Router();
+var validator   = require("validator");
+var Student     = require("../../models/student");
+var Account     = require("../../models/account");
+var Course      = require("../../models/course");
+var middleware  = require("../../middleware");
+var multer      = require("multer");
+
 var { isLoggedIn, isAdmin } = middleware;
+
+var storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, __dirname + '/../../public/resources/images/students');
+    },
+    filename: (req, file, callback) => {
+      callback(null, Date.now() + '-' + file.originalname);
+    }
+  });
+
+  var imageFilter = (req, file, callback) =>{
+      if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return callback(new Error("Only images files are allowed!"), false);          
+      }
+      callback(null, true);
+  };
+   
+  var upload = multer({ storage: storage , fileFilter : imageFilter});
 
 // INDEX Route :  show all the student list.
 router.get("/", (req, res) => {
@@ -32,7 +52,10 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 // CREATE new student to be created and updated in DB:
-router.post("/", isLoggedIn, (req, res)=>{
+router.post("/", isLoggedIn, upload.single("image"), (req, res)=>{
+    // console.log(req.file);
+    req.body.student.image = req.file.path.substring( req.file.path.indexOf("/resources") );;
+    // console.log(req.body);
     Student.create(req.body.student, (err, student) => {
         if (err) {
             req.flash("error", "New student cannot be created error : " + err.message);
@@ -96,7 +119,12 @@ router.get("/:student_id/edit", isLoggedIn, (req, res) =>{
 });
 
 // UPDATE route: this will update the details 
-router.put("/:student_id", isLoggedIn, (req, res) =>{
+router.put("/:student_id", isLoggedIn, upload.single("image"), (req, res) =>{
+    // console.log(req.file);
+    if (req.file) {
+        req.body.student.image = req.file.path.substring( req.file.path.indexOf("/resources") );;
+    }
+    // console.log(req.body);
     Student.findByIdAndUpdate(req.params.student_id, req.body.student, (err, student) => {
         if (err) {
             console.log(err);
