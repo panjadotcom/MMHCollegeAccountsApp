@@ -24,10 +24,10 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.post("/", isLoggedIn, (req, res)=>{
     Course.create(req.body.course, (err, course) => {
         if (err) {
-            req.flash("error", "New course cannot be created error : " + err.message);
+            req.flash("error", "New course cannot be created error ");
             console.log(err);
         }
-        res.redirect("/courses");
+        res.redirect("/courses/" + course._id);
     });
 });
 
@@ -36,7 +36,7 @@ router.get("/:course_id", (req, res) => {
     Course.findById(req.params.course_id, (err, course) => {
         if (err) {
             console.log(err);
-            req.flash("error", "Course not found " + err.message );
+            req.flash("error", "Course not found" );
             res.redirect("back");
         } else {
             res.render("courses/show", {course : course});
@@ -49,7 +49,7 @@ router.get("/:course_id/edit", isLoggedIn, (req, res) =>{
     Course.findById(req.params.course_id, (err, course) => {
         if(err) {
             console.log(err);
-            req.flash("error", "Course not found " + err.message);
+            req.flash("error", "Course not found");
             res.redirect('back');
         }
         else {
@@ -63,7 +63,7 @@ router.put("/:course_id", isLoggedIn, (req, res) =>{
     Course.findByIdAndUpdate(req.params.course_id, req.body.course, (err, course) => {
         if (err) {
             console.log(err);
-            req.flash("error", "Could not update course : " + err.message);
+            req.flash("error", "Could not update course ");
             res.redirect("back");
         }
         else {
@@ -77,7 +77,7 @@ router.delete("/:course_id", isLoggedIn, (req, res) => {
     Course.findByIdAndRemove(req.params.course_id, (err) => {
         if (err) {
             console.log(err);
-            req.flash("error", "Could not delete the course : " + err.message);
+            req.flash("error", "Could not delete the course ");
         }
         res.redirect("/courses");
     });

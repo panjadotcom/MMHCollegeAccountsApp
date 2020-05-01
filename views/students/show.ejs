@@ -1,17 +1,20 @@
 <%- include("../partials/header")%>
 <div class="row mt-3 justify-content-center">
-    <div class="col-md-9">
+    <div class="col-md-6">
         <div class="card">
-            <img src="<%= student.image%>" alt="" class="img-responsive card-img-top">
+            <img src="<%= student.image%>" alt="" class="img-responsive card-img-top img-thumbnail">
             <div class="card-body">
                 <h2 class="card-title"><a href="#"><%= student.name %></a></h2>
                 <p class="card-text"><%- student.description %></p>
                 <p class="card-text">
-                    <strong>Account Details : </strong>
                     <% if( ( typeof student.account !== 'undefined' ) && ( typeof student.account.id !== 'undefined' ) ) { %>
-                        <a href="/students/<%= student._id %>/accounts/<%= student.account.id %>"><%= student.account.name%></a>
+                        <% if(currentUser) { %>
+                            <a class="btn btn-outline-primary btn-sm btn-block" href="/students/<%= student._id %>/accounts/<%= student.account.id %>">Account : [<%= student.account.name%>]</a>
+                        <% } else { %>
+                            Account : [<%= student.account.name%>]
+                        <% } %>
                     <% } else { %>
-                        <a href="/students/<%= student._id %>/accounts/new"> Create new </a>
+                        <a class="btn btn-outline-primary btn-sm btn-block" href="/students/<%= student._id %>/accounts/new"> Create new Account</a>
                     <% } %>
                 </p>
                 <p class="card-text">Enrolled Courses:</p>
@@ -20,6 +23,7 @@
                     <li class="card-li"><p class="card-text"><%= course.name %></p></li>
                 <% }); %>
                 </ul>
+                <% if(currentUser) { %>
                 <div class="d-flex flex-row bd-highlight mb-3">
                     <div class="p-2 bd-highlight">
                         <a href="/students/<%= student._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>
@@ -30,6 +34,7 @@
                         </form>
                     </div>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>

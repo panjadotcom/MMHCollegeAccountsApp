@@ -11,6 +11,7 @@
             <p>Course Fees : INR <em><%= course.fee %></em></p>
         </div>
     </div>
+    <% if(currentUser) { %>
     <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
             <a href="/courses/<%= course._id %>/edit" class="btn btn-warning btn-sm">EDIT</a>
@@ -21,5 +22,6 @@
             </form>
         </div>
     </div>
+    <% } %>
   </div>
 <%- include("../partials/footer")%>

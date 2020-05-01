@@ -24,8 +24,8 @@ var { isLoggedIn, isAdmin , isAccountPathValid} = middleware;
 // });
 
 // NEW route. Create new payment.
-router.get("/new", (req, res) => {
-    console.log(req.params.acc_parent_type, req.params.acc_parent_id, req.params.account_id);
+router.get("/new", isLoggedIn, isAccountPathValid, (req, res) => {
+    // console.log(req.params.acc_parent_type, req.params.acc_parent_id, req.params.account_id);
     Account.findById(req.params.account_id, (err, fromAcc) => {
         if (err) {
             console.log(err);
@@ -51,8 +51,8 @@ router.get("/new", (req, res) => {
 });
 
 // CREATE route: this will create new payment in database.
-router.post("/", (req, res) =>{
-    console.log(req.params.acc_parent_type, req.params.acc_parent_id, req.params.account_id);
+router.post("/", isLoggedIn, isAccountPathValid, (req, res) =>{
+    // console.log(req.params.acc_parent_type, req.params.acc_parent_id, req.params.account_id);
     //console.log(req.body);
     Account.findById(req.body.payment.fromAccId, (err, fromAcc) => {
         if (err) {

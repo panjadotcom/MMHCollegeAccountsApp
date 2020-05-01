@@ -40,18 +40,23 @@ router.get("/login", (req, res) => {
 //handling login logic
 router.post("/login", passport.authenticate("local", 
     {
-        successRedirect: "/",
         failureRedirect: "/login",
-        failureFlash: true,
-        successFlash: 'Welcome to MMH College Accounts app!'
+        failureFlash: true
     }), (req, res) => {
+        var returnTo = req.session.returnTo || '/';
+        delete req.session.returnTo;
+        req.flash("success", 'Welcome to MMH College Accounts app!');
+        res.redirect(returnTo);
+        
 });
 
 // logout route
 router.get("/logout", (req, res) => {
-    var user = req.user;
-   req.logout();
-   req.flash("success", "See you later " + user.username);
+    if(req.user){
+        var user = req.user;
+        req.logout();
+        // req.flash("success", "See you later " + user.username);
+    }
    res.redirect("/");
 });
 

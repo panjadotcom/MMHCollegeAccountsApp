@@ -4,3 +4,9 @@ $(".custom-file-input").on('change', function(el) {
   let nextSibling = el.target.nextElementSibling;
   nextSibling.innerText = filename;
 });
+
+$("div .alert").on('mouseover', (el) => {
+  setTimeout(() => {
+    $("div .alert").remove();
+  }, 500);
+});

@@ -34,8 +34,8 @@ app.use(flash());
 
 // Connect to database
 // export DATABASE_URL="mongodb://localhost:27017/mmhcollege"
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true , useUnifiedTopology: true , useFindAndModify: false });
-
+const uri = process.env.DATABASE_URL;
+mongoose.connect(uri, { useNewUrlParser: true , useUnifiedTopology: true , useFindAndModify: false });
 
 // import seedDB file to seed the database with default data.
 // var seedDB = require("./seeds");

@@ -80,7 +80,7 @@ router.post("/", isLoggedIn, upload.single("image"), (req, res)=>{
                     });
                 });
             }
-            res.redirect("/students");
+            res.redirect("/students/" + student._id);
         }
     });
 });

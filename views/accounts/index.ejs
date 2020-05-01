@@ -14,9 +14,11 @@
         </div>
     <% }) %>
 </div>
-<!-- <div class="row justify-content-center">
-    <div class="col-sm-4">
-        <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Account</a>
+<% if( currentUser && currentUser.isAdmin )  { %>
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Account</a>
+        </div>
     </div>
-</div> -->
+<% } %>
 <%- include("../partials/footer")%>

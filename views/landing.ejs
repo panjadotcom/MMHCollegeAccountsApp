@@ -2,7 +2,9 @@
 
 		<div id="landing-header">
 			<h1>Welcome to MMH College Accounts App!</h1>
-			<a href="/login" class="btn btn-lg btn-success">Login</a>
+			<% if(!currentUser) { %>
+				<a href="/login" class="btn btn-lg btn-success">Login</a>
+			<% } %>
 		</div>
 
 		<ul class="slideshow">
