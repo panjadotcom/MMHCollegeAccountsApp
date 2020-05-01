@@ -24,23 +24,24 @@ router.get("/", (req, res) => {
 
 // NEW render new page to create new account
 router.get("/new", isLoggedIn, isAccountPathValid, (req, res) => {
-    if (req.user.isAdmin) {
+    if(req.params.acc_parent_type && req.params.acc_parent_type === "students"){
+        Student.findById(req.params.acc_parent_id, (err, student) => {
+            if (err) {
+                return res.redirect('back');
+            }
+            res.render("accounts/new", {
+                student : student,
+                acc_parent_type : req.params.acc_parent_type,
+                acc_parent_id: req.params.acc_parent_id
+            });
+        });
+    }else if (req.user.isAdmin) {
         return res.render("accounts/new", {
             student : undefined,
             acc_parent_type : req.params.acc_parent_type,
             acc_parent_id: req.params.acc_parent_id
         });
     }
-    Student.findById(req.params.acc_parent_id, (err, student) => {
-        if (err) {
-            return res.redirect('back');
-        }
-        res.render("accounts/new", {
-            student : student,
-            acc_parent_type : req.params.acc_parent_type,
-            acc_parent_id: req.params.acc_parent_id
-        });
-    });
 });
 
 // CREATE new account to be created and updated in DB:

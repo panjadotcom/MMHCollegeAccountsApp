@@ -2,7 +2,7 @@
 <!-- create new account -->
     <div class="row mt-3">
         <div class="col">
-            <h1 class="text-center">Enter new account details for <%= student.name %></h1>
+            <h1 class="text-center">Enter new account details <%= typeof student !== 'undefined' ? 'for ' + student.name : '' %></h1>
         </div>
     </div>
     <div class="row mt-3">
