@@ -8,7 +8,7 @@ package-lock.json
 .env
 
 #images that were uploaded.
-**/students/*.jpg
-**/students/*.jpeg
-**/students/*.png
-**/students/*.gif
+#**/students/*.jpg
+#**/students/*.jpeg
+#**/students/*.png
+#**/students/*.gif
