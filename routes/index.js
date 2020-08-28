@@ -16,8 +16,17 @@ router.get("/register", (req, res) => {
 
 //handle sign up logic
 router.post("/register", (req, res) => {
-    var newUser = new User({username: req.body.username});
-    if(req.body.adminCode === process.env.ADMIN_CODE) {
+    var newUser = new User({
+        firstname : req.body.firstname,
+        lastname : req.body.lastname,
+        dob : req.body.dob,
+        gender : req.body.gender,
+        email : req.body.email,
+        phone : req.body.phone,
+        designation : req.body.designation,
+        username : req.body.username,
+    });
+    if(req.body.admincode === process.env.ADMIN_CODE) {
       newUser.isAdmin = true;
     }
     User.register(newUser, req.body.password, (err, user) => {
@@ -25,10 +34,12 @@ router.post("/register", (req, res) => {
             console.log(err);
             return res.render("register", {error: err.message});
         }
-        passport.authenticate("local")(req, res, () => {
-           req.flash("success", "Successfully Signed Up! Nice to meet you " + req.body.username);
-           res.redirect("/"); 
-        });
+        req.flash("success", "Username " + user.username + " is Successfully Registered!");
+        res.redirect("/login");
+        // passport.authenticate("local")(req, res, () => {
+        //    req.flash("success", "Successfully Signed Up! Nice to meet you " + req.body.username);
+        //    res.redirect("/"); 
+        // });
     });
 });
 
@@ -45,7 +56,7 @@ router.post("/login", passport.authenticate("local",
     }), (req, res) => {
         var returnTo = req.session.returnTo || '/';
         delete req.session.returnTo;
-        req.flash("success", 'Welcome to MMH College Accounts app!');
+        //req.flash("success", 'Welcome to MMH College!');
         res.redirect(returnTo);
         
 });
