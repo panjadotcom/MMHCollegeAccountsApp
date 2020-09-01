@@ -12,3 +12,4 @@ package-lock.json
 **/students/*.jpeg
 **/students/*.png
 **/students/*.gif
+*.xlsx

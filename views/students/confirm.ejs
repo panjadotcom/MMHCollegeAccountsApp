@@ -1,0 +1,40 @@
+<%- include("../partials/header")%>
+<!-- create new student -->
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="text-center">Confirm <%= student.name %></h1>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-6">
+            <form action="/students/<%= student._id%>?_method=PUT" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="student[name]" id="student-name-edit" value="<%= student.name%>">
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="student-image-edit-area">Image</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="student-image-edit" aria-describedby="student-image-edit-area" name="image" accept="image/*" >
+                            <label class="custom-file-label" for="student-image-edit"><%= student.image%></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea name="student[description]" id="student-description-edit" cols="30" rows="10" class="form-control"><%= student.description %></textarea>
+                </div>
+                <% courses.forEach((course) => { %>
+                    <div class="custom-control custom-switch form-group">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch<%= course._id %>" name="course[<%= course._id %>]" <% if(student.courses.some(e => e._id.toString() === course._id.toString())) { %> checked <% } %> >
+                        <label class="custom-control-label" for="customSwitch<%= course._id %>"><%= course.name %></label>
+                    </div>
+                <% }) %>
+                <div class="form-group">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+<%- include("../partials/footer")%>

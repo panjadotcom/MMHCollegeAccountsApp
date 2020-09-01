@@ -1,20 +1,110 @@
 <%- include("../partials/header")%>
-<h1 class="text-center">Student List</h1>
 
 <div class="row justify-content-center">
-    <% students.forEach((student) => { %>
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-            <div class="card text-center">
-                <img src="<%= student.image%>" alt="" class="img-responsive card-img-top">
-                <h5 class="card-title"><%= student.name %></h5>
-                <a href="/students/<%= student._id %>" class="btn btn-primary btn-sm card-title">View More</a>
+    <div class="col-sm-12">
+        <h2 class="text-center">Upload students data in bulk</h2>
+    </div>
+    <div class="col-sm-10">
+        <form action="/students/upload" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <label class="input-group-text" for="excellDegreeNewUpload">Degree</label>
+                        </div>
+                        <select class="custom-select" id="excellDegreeNewUpload" name="degree">
+                        <option selected>Choose...</option>
+                            <% degrees.forEach((degree) => { %>
+                                <option value="<%= degree._id %>"><%= degree.degreeId %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="excellFileNewArea">Excell File</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="excellFileNew" aria-describedby="excellFileNewArea" name="xlsxfile" required >
+                            <label class="custom-file-label" for="excellFileNew">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <div class="form-group">
+                        <input class= "btn btn-primary btn-md form-control" type="submit" value="Submit">
+                    </div>
+                </div>
             </div>
-        </div>
-    <% }) %>
+        </form>
+    </div>
 </div>
+
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+<h1 class="text-center">Student List</h1>
 <div class="row justify-content-center">
     <div class="col-sm-4">
-        <a href="/students/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Student</a>
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= selecteddegree %></button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="/students">ALL</a>
+                <% degrees.forEach((degree) => {%>
+                    <a class="dropdown-item" href="/students/degree/<%= degree._id %>"><%= degree.degreeId %></a>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Courses in tabular form -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped table-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Student Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">gender</th>
+                        <th scope="col">DoB</th>
+                        <th scope="col">father</th>
+                        <th scope="col">mother</th>
+                        <th scope="col">mobile</th>
+                        <th scope="col">email</th>
+                        <th scope="col">adhar</th>
+                        <th scope="col">address</th>
+                        <th scope="col">catagory</th>
+                        <th scope="col">Confirm</th>
+                        <th scope="col">Show</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach((student) => { %>
+                    <tr>
+                        <th scope="row"><%= student.studentId %></th>
+                        <td><%= student.name %></td>
+                        <td><%= student.gender %></td>
+                        <td><%= student.dob.toLocaleDateString() %></td>
+                        <td><%= student.father %></td>
+                        <td><%= student.mother %></td>
+                        <td><%= student.mobile %></td>
+                        <td><%= student.email %></td>
+                        <td><%= student.adhar %></td>
+                        <td><%= student.address %></td>
+                        <td><%= student.catagory %></td>
+                        <td><a href="/students/<%= student._id %>/confirm" class="btn btn-primary btn-md card-title">Confirm</a></td>
+                        <td>
+                            <form action="/students/<%= student._id%>?_method=DELETE" method="post" class="d-flex-inline">
+                                <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <%- include("../partials/footer")%>
