@@ -95,22 +95,22 @@ html {
   }
   
   .slideshow li:nth-child(1) { 
-    background-image: url(/resources/images/backgrounds/mmh_image_1.jpg) 
+    background-image: url(/resources/static/images/backgrounds/mmh_image_1.jpg) 
   }
   .slideshow li:nth-child(2) { 
-    background-image: url(/resources/images/backgrounds/mmh_image_2.jpg);
+    background-image: url(/resources/static/images/backgrounds/mmh_image_2.jpg);
     animation-delay: 10s; 
   }
   .slideshow li:nth-child(3) { 
-    background-image: url(/resources/images/backgrounds/mmh_image_3.jpg);
+    background-image: url(/resources/static/images/backgrounds/mmh_image_3.jpg);
     animation-delay: 20s; 
   }
   .slideshow li:nth-child(4) { 
-    background-image: url(/resources/images/backgrounds/mmh_image_4.jpg);
+    background-image: url(/resources/static/images/backgrounds/mmh_image_4.jpg);
     animation-delay: 30s; 
   }
   .slideshow li:nth-child(5) { 
-    background-image: url(/resources/images/backgrounds/mmh_image_5.jpg);
+    background-image: url(/resources/static/images/backgrounds/mmh_image_5.jpg);
     animation-delay: 40s; 
   }
   
