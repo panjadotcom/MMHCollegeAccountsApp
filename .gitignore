@@ -8,4 +8,4 @@ package-lock.json
 .env
 
 # files that were uploaded.
-**/static/uploads/**
+#**/static/uploads/**
