@@ -1,23 +1,22 @@
 var mongoose = require("mongoose");
 
 var PaymentSchema = new mongoose.Schema({
-    amount : Number,
-    idTxn : String,
-    description : String,
-    timeTxn : { type: Date, default: Date.now },
-    fromAcc : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref  : "Account"
-        },
-        accName : String
+    paymentId : {
+        type : String,
+        unique : true
     },
-    toAcc : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref  : "Account"
-        },
-        accName : String
+    paymentTime : { type: Date, default: Date.now },
+    bankName : String,
+    bankPaymentId : String,
+    bankPaymentTime : { type: Date, default: Date.now },
+    amount : Number,
+    fromAccId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref  : "Account"
+    },
+    toAccId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref  : "Account"
     }
 });
 

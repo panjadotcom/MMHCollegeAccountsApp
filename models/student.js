@@ -19,18 +19,13 @@ var StudentSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
-    account : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref  : "Account"
-        },
-        name : String
+    accountId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref  : "Account"
     },
-    degree : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref  : "Degree"
-        }
+    degreeId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref  : "Degree"
     },
     courses : [
         {

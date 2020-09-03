@@ -16,11 +16,13 @@ var User = require("./models/user");
 
 
 // import routes
-var indexRoutes     = require("./routes/index");
-var courseRoutes    = require("./routes/courses");
+var indexRoute     = require("./routes/index");
+var courseRoute    = require("./routes/courses");
+var degreeRoute    = require("./routes/degrees");
 var studentRoute    = require("./routes/students");
 var accountRoute    = require("./routes/accounts");
 var paymentRoute    = require("./routes/payments");
+
 
 // INIT app
 var app = express();
@@ -63,8 +65,9 @@ app.use( (req, res, next)=> {
     next();
 });
 
-app.use("/", indexRoutes);
-app.use("/courses", courseRoutes);
+app.use("/", indexRoute);
+app.use("/courses", courseRoute);
+app.use("/degrees", degreeRoute);
 app.use("/students", studentRoute);
 app.use("/accounts", accountRoute);
 app.use("/:acc_parent_type/:acc_parent_id/accounts", accountRoute);

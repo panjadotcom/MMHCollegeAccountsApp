@@ -7,9 +7,9 @@
                 <h2 class="card-title"><a href="#"><%= student.name %></a></h2>
                 <p class="card-text"><%- student.description %></p>
                 <p class="card-text">
-                    <% if( ( typeof student.account !== 'undefined' ) && ( typeof student.account.id !== 'undefined' ) ) { %>
+                    <% if( ( typeof student.account !== 'undefined' ) && ( typeof student.accountId !== 'undefined' ) ) { %>
                         <% if(currentUser) { %>
-                            <a class="btn btn-outline-primary btn-sm btn-block" href="/students/<%= student._id %>/accounts/<%= student.account.id %>">Account : [<%= student.account.name%>]</a>
+                            <a class="btn btn-outline-primary btn-sm btn-block" href="/students/<%= student._id %>/accounts/<%= student.accountId %>">Account : [<%= student.account.name%>]</a>
                         <% } else { %>
                             Account : [<%= student.account.name%>]
                         <% } %>

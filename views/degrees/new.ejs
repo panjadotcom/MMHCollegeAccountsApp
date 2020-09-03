@@ -1,0 +1,40 @@
+<%- include("../partials/header")%>
+<!-- create new degree -->
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="text-center">Enter new degree details</h1>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="/degrees" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="degree[degreeId]" id="degree-name-new" placeholder="Degree Id  (eg: BA-Without-Practical)" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="degree[name]" id="degree-name-new" placeholder="Degree Name  (eg: B.A.)" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeBoysMF]" id="degree-feeBoysMF-new" placeholder="Course fee Boys MF" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeBoysBF]" id="degree-feeBoysBF-new" placeholder="Course fee Boys BF" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeGirlsMF]" id="degree-feeGirlsMF-new" placeholder="Course fee Girls MF" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeGirlsBF]" id="degree-feeGirlsBF-new" placeholder="Course fee Girls BF" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[maxSeat]" id="degree-maxSeat-new" placeholder="Max Number of seats" required>
+                </div>
+                <div class="form-group">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<%- include("../partials/footer")%>

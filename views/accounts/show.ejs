@@ -28,34 +28,38 @@
         <caption>List of Payments</caption>
         <thead class="thead-light">
             <tr>
+                <th scope="col">Txn Id</th>
                 <th scope="col">Time</th>
                 <th scope="col">From</th>
                 <th scope="col">To</th>
-                <th scope="col">Txn Id</th>
+                <th scope="col">Bank Name</th>
+                <th scope="col">Chalan No</th>
+                <th scope="col">Chalan Date</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Description</th>
             </tr>
         </thead>
         <tbody>
-            <% account.payments.forEach((payment) => { %>
+            <% payments.forEach((payment) => { %>
             <tr>
-                <th scope="row"><%= payment.timeTxn.toDateString() %></th>
-                <td><%= payment.fromAcc.accName%></td>
-                <td><%= payment.toAcc.accName %></td>
-                <td><%= payment.idTxn %></td>
+                <th scope="row"><%= payment.paymentId %></th>
+                <td><%= payment.paymentTime.toLocaleDateString() %></td>
+                <td><%= payment.fromAccId.name %></td>
+                <td><%= payment.toAccId.name %></td>
+                <td><%= payment.bankName %></td>
+                <td><%= payment.bankPaymentId %></td>
+                <td><%= payment.bankPaymentTime.toLocaleDateString() %></td>
                 <td><%= payment.amount %></td>
-                <td><%= payment.description.substring(0, 50) %></td>
             </tr>
             <% }); %>
         </tbody>
     </table>
 </div>
 <!-- Add Button to enter new payment -->
-<% if((typeof acc_parent_type !== 'undefined' && acc_parent_type === 'students' )) { %>
+<!-- <% if((typeof acc_parent_type !== 'undefined' && acc_parent_type === 'students' )) { %>
 <div class="row justify-content-center">
     <div class="col-md-4">
         <a href="<%= typeof acc_parent_type !== 'undefined' ? '/' + acc_parent_type : '' %><%= typeof acc_parent_id !== 'undefined' ? '/' + acc_parent_id : '' %>/accounts/<%= account._id %>/payments/new" class="btn btn-primary btn-lg btn-block">Add New Payment</a>
     </div>
 </div>
-<% } %>
+<% } %> -->
 <%- include("../partials/footer")%>

@@ -1,0 +1,47 @@
+<%- include("../partials/header")%>
+<h1 class="text-center">Degree List</h1>
+
+<!-- Display Degree in tabular form -->
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Degree</th>
+                <th scope="col">Boys Fee M/F</th>
+                <th scope="col">Boys Fee B/F</th>
+                <th scope="col">Boys Fee Total</th>
+                <th scope="col">Girls Fee M/F</th>
+                <th scope="col">Girls Fee B/F</th>
+                <th scope="col">Girls Fee Total</th>
+                <th scope="col">Max Seats</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% degrees.forEach((degree) => { %>
+            <tr>
+                <th scope="row"><%= degree.degreeId %></th>
+                <td><%= degree.name %></td>
+                <td><%= degree.feeBoysMF %></td>
+                <td><%= degree.feeBoysBF %></td>
+                <td><%= degree.feeBoysMF + degree.feeBoysBF %></td>
+                <td><%= degree.feeGirlsMF %></td>
+                <td><%= degree.feeGirlsBF %></td>
+                <td><%= degree.feeGirlsMF + degree.feeGirlsBF %></td>
+                <td><%= degree.maxSeat %></td>
+                <td><a href="/degrees/<%= degree._id %>/edit" class="btn btn-primary btn-md">Edit</a></td>
+                <td><a href="/degrees/<%= degree._id %>" class="btn btn-primary btn-md">List</a></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-4">
+        <a href="/degrees/new" class="btn btn-primary btn-lg btn-block mt-3">Add New Degree</a>
+    </div>
+</div>
+<%- include("../partials/footer")%>

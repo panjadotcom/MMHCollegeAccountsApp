@@ -1,0 +1,50 @@
+<%- include("../partials/header")%>
+<!-- create new degree -->
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="text-center">Edit <%= degree.name %></h1>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="/degrees/<%= degree._id%>?_method=DELETE" method="post">
+                <div class="form-group">
+                    <input class="btn btn-danger btn-lg form-control" type="submit" value="DELETE ?">
+                </div>
+                
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="/degrees/<%= degree._id%>?_method=PUT" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="degree[degreeId]" id="degree-degreeId-edit" value="<%= degree.degreeId%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="degree[name]" id="degree-name-edit" value="<%= degree.name%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeBoysMF]" id="degree-feeBoysMF-edit" value="<%= degree.feeBoysMF%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeBoysBF]" id="degree-feeBoysBF-edit" value="<%= degree.feeBoysBF%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeGirlsMF]" id="degree-feeGirlsMF-edit" value="<%= degree.feeGirlsMF%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[feeGirlsBF]" id="degree-feeGirlsBF-edit" value="<%= degree.feeGirlsBF%>" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" name="degree[maxSeat]" id="degree-maxSeat-edit" value="<%= degree.maxSeat%>" required>
+                </div>
+                <div class="form-group">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="UPDATE">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<%- include("../partials/footer")%>

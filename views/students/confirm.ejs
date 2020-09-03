@@ -2,37 +2,50 @@
 <!-- create new student -->
     <div class="row mt-3">
         <div class="col">
-            <h1 class="text-center">Confirm <%= student.name %></h1>
+            <h1 class="text-center">Confirm <%= student.name %> in <%= student.degreeId.degreeId %></h1>
         </div>
     </div>
     <div class="row mt-3 justify-content-center">
-        <div class="col-md-6">
-            <form action="/students/<%= student._id%>?_method=PUT" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="student[name]" id="student-name-edit" value="<%= student.name%>">
+        <div class="col-md-10">
+            <form action="/students/<%= student._id%>/confirm?_method=PUT" method="post">
+                <div class="form-group row">
+                    <label for="payment-bankName-edit" class="col-sm-2 col-form-label">Bank Name</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" name="payment[bankName]" id="payment-bankName-edit" placeholder="Bank Name">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="student-image-edit-area">Image</span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="student-image-edit" aria-describedby="student-image-edit-area" name="image" accept="image/*" >
-                            <label class="custom-file-label" for="student-image-edit"><%= student.image%></label>
-                        </div>
+                <div class="form-group row">
+                    <label for="payment-bankPaymentId-edit" class="col-sm-2 col-form-label">Chalan / DD number</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" name="payment[bankPaymentId]" id="payment-bankPaymentId-edit" placeholder="chalan or Demand Draft number">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="payment-bankPaymentTime-edit" class="col-sm-2 col-form-label">Chalan Date</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="date" name="payment[bankPaymentTime]" id="payment-bankPaymentTime-edit" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="payment-amountMF-edit" class="col-sm-2 col-form-label">MF amount</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="number" name="payment[amountMF]" id="payment-amountMF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF : student.degreeId.feeGirlsMF %>" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="payment-amountBF-edit" class="col-sm-2 col-form-label">BF Amount</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="number" name="payment[amountBF]" id="payment-amountBF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysBF : student.degreeId.feeGirlsBF %>"readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="payment-amountTotal-edit" class="col-sm-2 col-form-label">Total amount</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="number" name="payment[amountTotal]" id="payment-amountTotal-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF + student.degreeId.feeBoysBF : student.degreeId.feeGirlsMF + student.degreeId.feeGirlsBF %>" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <textarea name="student[description]" id="student-description-edit" cols="30" rows="10" class="form-control"><%= student.description %></textarea>
-                </div>
-                <% courses.forEach((course) => { %>
-                    <div class="custom-control custom-switch form-group">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch<%= course._id %>" name="course[<%= course._id %>]" <% if(student.courses.some(e => e._id.toString() === course._id.toString())) { %> checked <% } %> >
-                        <label class="custom-control-label" for="customSwitch<%= course._id %>"><%= course.name %></label>
-                    </div>
-                <% }) %>
-                <div class="form-group">
-                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Submit">
+                    <input class= "btn btn-primary btn-lg form-control" type="submit" value="Confirm">
                 </div>
             </form>
         </div>

@@ -2,13 +2,15 @@ var express = require("express");
 var router = express.Router({mergeParams : true});
 var Account = require("../../models/account");
 var Student = require("../../models/student");
+var Payment = require("../../models/payment");
 var middleware = require("../../middleware");
+const flash = require("express-flash");
 var { isLoggedIn, isAdmin , isAccountPathValid} = middleware;
 
 // INDEX Show all Accounts.
 router.get("/", (req, res) => {
     // console.log("INDEX route : /" + req.params.acc_parent_type + "/" + req.params.acc_parent_id);
-    Account.find({}, (err, accounts) =>{
+    Account.find({isStudentAccount : false}, (err, accounts) =>{
         if (err) {
             console.log(err);
         } else {
@@ -44,6 +46,38 @@ router.get("/new", isLoggedIn, isAccountPathValid, (req, res) => {
     }
 });
 
+router.post("/default", isAdmin, (req,res) => {
+    let accounts = [
+        {
+            name : "MAIN-ACCOUNT",
+            number : "1234567890",
+            description : "Default main account",
+            isStudentAccount : false
+        },
+        {
+            name : "MF-ACCOUNT",
+            number : "12345",
+            description : "Default mf account",
+            isStudentAccount : false
+        },
+        {
+            name : "BF-ACCOUNT",
+            number : "67890",
+            description : "Default bf account",
+            isStudentAccount : false
+        }
+    ];
+    Account.insertMany(accounts, {ordered : false}, (err, accounts) => {
+        if (err) {
+            console.log(err.result);
+            req.flash("error",  "New " + err.result.nInserted + " accounts created");
+        } else {
+            req.flash("error", "New " + accounts.length + " acounts created");
+        }
+        res.redirect("/accounts");
+    });
+});
+
 // CREATE new account to be created and updated in DB:
 router.post("/", isLoggedIn, isAccountPathValid, (req, res)=>{
     Account.create(req.body.account, (err, account) => {
@@ -57,8 +91,7 @@ router.post("/", isLoggedIn, isAccountPathValid, (req, res)=>{
                 if (err) {
                     console.log(err);
                 } else if(student) {
-                    student.account.id = account._id;
-                    student.account.name = account.name;
+                    student.accountId = account._id;
                     student.save();
                     res.redirect("/" + req.params.acc_parent_type + "/" + req.params.acc_parent_id + "/accounts/" + account._id);
                 }
@@ -81,10 +114,17 @@ router.get("/:account_id", isLoggedIn, (req, res) => {
             req.flash("error", "Account not found ");
             res.redirect("back");
         } else if(account){
-            res.render("accounts/show", {
-                account : account,
-                acc_parent_type : req.params.acc_parent_type,
-                acc_parent_id: req.params.acc_parent_id
+            Payment.find({ toAccId : account._id}).populate("fromAccId").populate("toAccId").exec( (err, payments) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("accounts/show", {
+                        account : account,
+                        payments : payments,
+                        acc_parent_type : req.params.acc_parent_type,
+                        acc_parent_id: req.params.acc_parent_id
+                    });
+                }
             });
         } else {
             req.flash("error", "Account deleted!");

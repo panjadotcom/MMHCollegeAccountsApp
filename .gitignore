@@ -7,9 +7,5 @@ package-lock.json
 #Environment file:
 .env
 
-#images that were uploaded.
-**/students/*.jpg
-**/students/*.jpeg
-**/students/*.png
-**/students/*.gif
-*.xlsx
+# files that were uploaded.
+**/static/uploads/**

@@ -1,9 +1,16 @@
 var mongoose = require("mongoose");
 
 var AccountSchema = new mongoose.Schema({
-    name : String,
+    name : {
+        type : String,
+        unique : true
+    },
     number : String,
     description : String,
+    isStudentAccount : {
+        type : Boolean,
+        default : false
+    },
     payments : [
         {
             type : mongoose.Schema.Types.ObjectId,

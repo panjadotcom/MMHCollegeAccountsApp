@@ -4,7 +4,12 @@ var DegreeSchema = new mongoose.Schema({
         type : String,
         unique : true
     },
-    name : String
+    name : String,
+    feeBoysMF : Number,
+    feeBoysBF : Number,
+    feeGirlsMF : Number,
+    feeGirlsBF : Number,
+    maxSeat : Number
 });
 
 module.exports = mongoose.model("Degree", DegreeSchema);

@@ -1,0 +1,62 @@
+<%- include("../partials/header")%>
+<div class="jumbotron">
+    <h1 class="display-4">Students list of <%= degree.degreeId %> </h1>
+    <hr class="my-4">
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <p>Students enrolled : <em><%= students.length %> / <%= degree.maxSeat %></em> </p>
+        </div>
+    </div>
+  </div>
+    <% if( typeof students !== 'undefined' ) { %> 
+        <!-- Display Courses in tabular form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped table-sm">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Student Id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">gender</th>
+                                <th scope="col">DoB</th>
+                                <th scope="col">father</th>
+                                <th scope="col">mother</th>
+                                <th scope="col">mobile</th>
+                                <th scope="col">email</th>
+                                <th scope="col">adhar</th>
+                                <th scope="col">address</th>
+                                <th scope="col">catagory</th>
+                                <th scope="col">Withdraw</th>
+                                <th scope="col">Show</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% students.forEach((student) => { %>
+                            <tr>
+                                <th scope="row"><%= student.studentId %></th>
+                                <td><%= student.name %></td>
+                                <td><%= student.gender %></td>
+                                <td><%= student.dob.toLocaleDateString() %></td>
+                                <td><%= student.father %></td>
+                                <td><%= student.mother %></td>
+                                <td><%= student.mobile %></td>
+                                <td><%= student.email %></td>
+                                <td><%= student.adhar %></td>
+                                <td><%= student.address %></td>
+                                <td><%= student.catagory %></td>
+                                <td><a href="/students/<%= student._id %>/confirm" class="btn btn-primary btn-md card-title">Confirm</a></td>
+                                <td>
+                                    <form action="/students/<%= student._id%>?_method=DELETE" method="post" class="d-flex-inline">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <% } %>
+<%- include("../partials/footer")%>

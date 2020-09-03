@@ -76,8 +76,7 @@
                         <th scope="col">adhar</th>
                         <th scope="col">address</th>
                         <th scope="col">catagory</th>
-                        <th scope="col">Confirm</th>
-                        <th scope="col">Show</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,12 +93,27 @@
                         <td><%= student.adhar %></td>
                         <td><%= student.address %></td>
                         <td><%= student.catagory %></td>
-                        <td><a href="/students/<%= student._id %>/confirm" class="btn btn-primary btn-md card-title">Confirm</a></td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-primary btn-md btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select</button>
+                                  <div class="dropdown-menu">
+                                    <!-- <a class="dropdown-item btn btn-danger btn-block btn-md" href="/students/<%= student._id %>/confirm">Confirm</a> -->
+                                    <form action="/students/<%= student._id%>/confirm" method="get" class=" dropdown-item">
+                                        <input class="btn btn-primary btn-sm" type="submit" value="CONFIRM">
+                                    </form>
+                                    <div role="separator" class="dropdown-divider"></div>
+                                    <form action="/students/<%= student._id%>?_method=DELETE" method="post" class=" dropdown-item">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- <td><a href="/students/<%= student._id %>/confirm" class="btn btn-primary btn-md card-title">Confirm</a></td>
                         <td>
                             <form action="/students/<%= student._id%>?_method=DELETE" method="post" class="d-flex-inline">
                                 <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
                             </form>
-                        </td>
+                        </td> -->
                     </tr>
                     <% }); %>
                 </tbody>

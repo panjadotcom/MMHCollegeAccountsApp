@@ -5,6 +5,7 @@ var Student     = require("../../models/student");
 var Degree     = require("../../models/degree");
 var Account     = require("../../models/account");
 var Course      = require("../../models/course");
+var Payment     = require("../../models/payment");
 var middleware  = require("../../middleware");
 var upload      = require("../../middleware/upload");
 
@@ -13,7 +14,7 @@ var { isLoggedIn, isAdmin } = middleware;
 
 // INDEX Route :  show all the student list.
 router.get("/", (req, res) => {
-    Student.find({}, (err, students) => {
+    Student.find({isConfirmed : false}, (err, students) => {
         if (err) {
             console.log(err);
             req.flash("error", "Error in listing students" + err.message);
@@ -39,7 +40,7 @@ router.get("/degree/:degree_id", (req,res) => {
             req.flash("error", "Error in finding degree" + err.message);
             res.redirect("back");
         } else {
-            Student.find({degree : { id : degree._id}}, (err, students) => {
+            Student.find({ degreeId : degree._id, isConfirmed : false }, (err, students) => {
                 if (err) {
                     console.log(err);
                     req.flash("error", "Error in finding students" + err.message);
@@ -73,6 +74,8 @@ router.get("/new", isLoggedIn, (req, res) => {
 
 const readXlsxFile = require('read-excel-file/node');
 const { isValidObjectId } = require("mongoose");
+const student = require("../../models/student");
+const flash = require("express-flash");
 // BULK UPLOAD STUDENTS in the database:
 // router.post("/upload",isLoggedIn, upload.single("xlsxfile"), (req,res) => {
 router.post("/upload", upload.single("xlsxfile"), (req,res) => {
@@ -105,9 +108,7 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
                     adhar : row[18],
                     address : row[19],
                     catagory : row[20],
-                    degree : {
-                        id : degree._id
-                    }
+                    degreeId : degree._id
                 };
         
                 students.push(student);
@@ -202,18 +203,126 @@ router.get("/:student_id/edit", isLoggedIn, (req, res) =>{
 
 // Confirm route: This will show confirmation page.
 router.get("/:student_id/confirm", isLoggedIn, (req, res) =>{
-    Student.findById(req.params.student_id).populate("courses").exec( (err, student) => {
+    Student.findById(req.params.student_id).populate("degreeId").exec( (err, student) => {
         if(err) {
             console.log(err);
             req.flash("error", "student not found " + err.message);
             res.redirect('back');
         }
         else {
-            Course.find({}, (err, courses ) => {
+            Degree.find({}, (err, degrees ) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    res.render("students/confirm", { student : student , courses : courses});
+                    res.render("students/confirm", { student : student , degrees : degrees});
+                }
+            });
+        }
+    });
+});
+
+// Confirmation route: Update the details of student.
+router.put("/:student_id/confirm", (req, res) => {
+    Student.findById(req.params.student_id, (err, student) => {
+        if (err) {
+            console.log(err);
+            req.flash("error", "student not found " + err.message);
+            res.redirect('back');
+        } else {
+            // Find the main and mf-bf account first then move ahaid.
+            Account.findOne({ name : "MAIN-ACCOUNT"}, (err, mainAccount) => {
+                if (err) {
+                    console.log(err);
+                    req.flash("error", "main account not found " + err.message);
+                    res.redirect('back');
+                } else {
+                    Account.findOne({ name : "MF-ACCOUNT"}, (err, mfAccount) => {
+                        if (err) {
+                            console.log(err);
+                            req.flash("error", "mf account not found " + err.message);
+                            res.redirect('back');
+                        } else {
+                            Account.findOne({ name : "BF-ACCOUNT"}, (err, bfAccount) => {
+                                if (err) {
+                                    console.log(err);
+                                    req.flash("error", "bf account not found " + err.message);
+                                    res.redirect('back');
+                                } else {
+                                    // Now create student account and add ayment.
+                                    // console.log(mainAccount);
+                                    // console.log(mfAccount);
+                                    // console.log(bfAccount);
+                                    let account = {
+                                        name : student.name,
+                                        number : student.studentId,
+                                        isStudentAccount : true,
+                                        description : "Student Account details : { Mobile : " + student.mobile + " , Email : " + student.email + " }"
+                                    };
+                                    Account.create(account, (err, account) => {
+                                        if (err) {
+                                            console.log(err);
+                                            req.flash("error", "student account cannot be created found " + err.message);
+                                            res.redirect('back');
+                                        } else {
+                                            // Now add payment to accounts.
+                                            let timenow = new Date();
+                                            let payments = [];
+                                            let paymentMain = {
+                                                //paymentId : "MMH" + Math.floor(timenow / 1000 ) +timenow.getFullYear() + timenow.getMonth() + timenow.getDate() + timenow.getHours() + timenow.getMinutes() + timenow.getSeconds(),
+                                                paymentId : "MMH" + Math.floor(timenow / 1000 ),
+                                                bankName : req.body.payment.bankName,
+                                                bankPaymentId : req.body.payment.bankPaymentId,
+                                                bankPaymentTime : Date.parse(req.body.payment.bankPaymentTime),
+                                                amount : Number.parseInt(req.body.payment.amountMF) + Number.parseInt(req.body.payment.amountBF),
+                                                fromAccId : account._id,
+                                                toAccId : mainAccount._id
+                                            };
+                                            payments.push(paymentMain);
+                                            let paymentMF = {
+                                                paymentId : "MF" + Math.floor(timenow / 1000 ),
+                                                bankName : req.body.payment.bankName,
+                                                bankPaymentId : req.body.payment.bankPaymentId,
+                                                bankPaymentTime : Date.parse(req.body.payment.bankPaymentTime),
+                                                amount : req.body.payment.amountMF,
+                                                fromAccId : mainAccount._id,
+                                                toAccId : mfAccount._id
+                                            };
+                                            payments.push(paymentMF);
+                                            let paymentBF = {
+                                                paymentId : "BF" + Math.floor(timenow / 1000 ),
+                                                bankName : req.body.payment.bankName,
+                                                bankPaymentId : req.body.payment.bankPaymentId,
+                                                bankPaymentTime : Date.parse(req.body.payment.bankPaymentTime),
+                                                amount : req.body.payment.amountBF,
+                                                fromAccId : mainAccount._id,
+                                                toAccId : bfAccount._id
+                                            };
+                                            payments.push(paymentBF);
+                                            
+                                            Payment.insertMany(payments, {ordered : false}, (err, payments) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    req.flash("error", "payments cannot be created " + err.message);
+                                                } else {
+                                                    console.log(payments.length + " created in the database");
+                                                }
+                                                // now confirm the student.
+                                                student.isConfirmed = true;
+                                                student.accountId = account._id;
+                                                student.save((err) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    }
+                                                    console.log("Student confirmed...");
+                                                    res.redirect("/students/degree/" + student.degreeId);
+                                                });
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }
             });
         }
@@ -271,7 +380,7 @@ router.delete("/:student_id", isLoggedIn, (req, res) => {
             res.redirect("/students");
         } else {
             // Delete connected account also ?.
-            Account.findByIdAndRemove(student.account.id, (err, account) => {
+            Account.findByIdAndRemove(student.accountId, (err, account) => {
                 if (err) {
                     console.log(err);
                     res.redirect("/students");
