@@ -6,44 +6,57 @@
         </div>
     </div>
     <div class="row mt-3 justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-6">
             <form action="/students/<%= student._id%>/confirm?_method=PUT" method="post">
                 <div class="form-group row">
-                    <label for="payment-bankName-edit" class="col-sm-2 col-form-label">Bank Name</label>
-                    <div class="col-sm-10">
+                    <label for="payment-bankName-edit" class="col-sm-4 col-form-label">Bank Name</label>
+                    <div class="col-sm-8">
                         <input class="form-control" type="text" name="payment[bankName]" id="payment-bankName-edit" placeholder="Bank Name">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="payment-bankPaymentId-edit" class="col-sm-2 col-form-label">Chalan / DD number</label>
-                    <div class="col-sm-10">
+                    <label for="payment-bankPaymentId-edit" class="col-sm-4 col-form-label">Chalan / DD number</label>
+                    <div class="col-sm-8">
                         <input class="form-control" type="text" name="payment[bankPaymentId]" id="payment-bankPaymentId-edit" placeholder="chalan or Demand Draft number">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="payment-bankPaymentTime-edit" class="col-sm-2 col-form-label">Chalan Date</label>
-                    <div class="col-sm-10">
+                    <label for="payment-bankPaymentTime-edit" class="col-sm-4 col-form-label">Chalan Date</label>
+                    <div class="col-sm-8">
                         <input class="form-control" type="date" name="payment[bankPaymentTime]" id="payment-bankPaymentTime-edit" value="">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="payment-amountMF-edit" class="col-sm-2 col-form-label">MF amount</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="number" name="payment[amountMF]" id="payment-amountMF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF : student.degreeId.feeGirlsMF %>" readonly>
+                    <label for="payment-amountMF-edit" class="col-sm-4 col-form-label">MF amount</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" onchange="updateTotal()" type="number" name="payment[amountMF]" id="payment-amountMF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF : student.degreeId.feeGirlsMF %>" >
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="payment-amountBF-edit" class="col-sm-2 col-form-label">BF Amount</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="number" name="payment[amountBF]" id="payment-amountBF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysBF : student.degreeId.feeGirlsBF %>"readonly>
+                    <label for="payment-amountBF-edit" class="col-sm-4 col-form-label">BF Amount</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" onchange="updateTotal()" type="number" name="payment[amountBF]" id="payment-amountBF-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysBF : student.degreeId.feeGirlsBF %>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="payment-amountTotal-edit" class="col-sm-2 col-form-label">Total amount</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="number" name="payment[amountTotal]" id="payment-amountTotal-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF + student.degreeId.feeBoysBF : student.degreeId.feeGirlsMF + student.degreeId.feeGirlsBF %>" readonly>
+                    <label for="payment-amountOther-edit" class="col-sm-4 col-form-label">Other Amount</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" onchange="updateTotal()" type="number" name="payment[amountOther]" id="payment-amountOther-edit" value="0">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="payment-amountTotal-edit" class="col-sm-4 col-form-label">Total amount</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="number" name="payment[amountTotal]" id="payment-amountTotal-edit" value="<%= (student.gender === 'MALE') ? student.degreeId.feeBoysMF + student.degreeId.feeBoysBF : student.degreeId.feeGirlsMF + student.degreeId.feeGirlsBF %>" readonly >
+                    </div>
+                </div>
+                <script>
+                    function updateTotal() {
+                        document.getElementById("payment-amountTotal-edit").value = parseInt(document.getElementById("payment-amountMF-edit").value)
+                         + parseInt(document.getElementById("payment-amountBF-edit").value)
+                          + parseInt(document.getElementById("payment-amountOther-edit").value);
+                    }
+                </script>
                 <div class="form-group">
                     <input class= "btn btn-primary btn-lg form-control" type="submit" value="Confirm">
                 </div>

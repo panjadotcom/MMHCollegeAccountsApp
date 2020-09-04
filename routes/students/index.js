@@ -14,21 +14,14 @@ var { isLoggedIn, isAdmin } = middleware;
 
 // INDEX Route :  show all the student list.
 router.get("/", (req, res) => {
-    Student.find({isConfirmed : false}, (err, students) => {
+    Degree.find({}, (err, degrees) => {
         if (err) {
             console.log(err);
-            req.flash("error", "Error in listing students" + err.message);
+            req.flash("error", "Error in listing degrees" + err.message);
             res.redirect("back");
         } else {
-            Degree.find({}, (err, degrees) => {
-                if (err) {
-                    console.log(err);
-                    req.flash("error", "Error in listing degrees" + err.message);
-                    res.redirect("back");
-                } else {
-                    res.render("students/index", { students : students , degrees : degrees, page : "students", selecteddegree : "ALL"});     
-                }
-            });
+            let students = [];
+            res.render("students/index", { students : students , degrees : degrees, page : "students", selecteddegree : "SELECT"});     
         }
     });
 });
@@ -273,7 +266,7 @@ router.put("/:student_id/confirm", (req, res) => {
                                                 bankName : req.body.payment.bankName,
                                                 bankPaymentId : req.body.payment.bankPaymentId,
                                                 bankPaymentTime : Date.parse(req.body.payment.bankPaymentTime),
-                                                amount : Number.parseInt(req.body.payment.amountMF) + Number.parseInt(req.body.payment.amountBF),
+                                                amount : Number.parseInt(req.body.payment.amountMF) + Number.parseInt(req.body.payment.amountBF) + Number.parseInt(req.body.payment.amountOther),
                                                 fromAccId : account._id,
                                                 toAccId : mainAccount._id
                                             };

@@ -49,7 +49,7 @@
         <div class="input-group mb-3">
             <button class="btn btn-outline-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= selecteddegree %></button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="/students">ALL</a>
+                <a class="dropdown-item" href="/students">SELECT</a>
                 <% degrees.forEach((degree) => {%>
                     <a class="dropdown-item" href="/students/degree/<%= degree._id %>"><%= degree.degreeId %></a>
                 <% }) %>
