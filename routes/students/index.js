@@ -65,6 +65,11 @@ router.get("/new", isLoggedIn, (req, res) => {
     });
 });
 
+router.get("/download", isLoggedIn, (req, res) => {
+    const file = `public/resources/static/standard/xlsx/STANDARD-StudentList.xlsx`;
+    res.download(file);
+});
+
 const readXlsxFile = require('read-excel-file/node');
 const { isValidObjectId } = require("mongoose");
 const student = require("../../models/student");
