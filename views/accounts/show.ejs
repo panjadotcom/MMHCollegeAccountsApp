@@ -21,38 +21,53 @@
         <% } %>
     </div>
 </div>
-
-<!-- Display Payments for this account -->
-<div class="table-responsive-lg">
-    <table class="table table-bordered table-hover table-striped">
-        <caption>List of Payments</caption>
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">Txn Id</th>
-                <th scope="col">Time</th>
-                <th scope="col">From</th>
-                <th scope="col">To</th>
-                <th scope="col">Bank Name</th>
-                <th scope="col">Chalan No</th>
-                <th scope="col">Chalan Date</th>
-                <th scope="col">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% payments.forEach((payment) => { %>
-            <tr>
-                <th scope="row"><%= payment.paymentId %></th>
-                <td><%= payment.paymentTime.toLocaleDateString() %></td>
-                <td><%= payment.fromAccId.name %></td>
-                <td><%= payment.toAccId.name %></td>
-                <td><%= payment.bankName %></td>
-                <td><%= payment.bankPaymentId %></td>
-                <td><%= payment.bankPaymentTime.toLocaleDateString() %></td>
-                <td><%= payment.amount %></td>
-            </tr>
-            <% }); %>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-12">
+        <div class="form-row justify-content-end">
+            <div class="form-group col-md-4">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Search</span>
+                    </div>
+                    <input type="text" aria-label="Filter String" class="form-control" id="paymentFilterValue" onkeyup="filterTableContent('paymentFilterValue','PaymentListDisplayTable')" value="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <!-- Display Payments for this account -->
+        <div class="table-responsive-lg">
+            <table class="table table-bordered table-hover table-striped" id="PaymentListDisplayTable">
+                <caption>List of Payments</caption>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Txn Id</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Bank Name</th>
+                        <th scope="col">Chalan No</th>
+                        <th scope="col">Chalan Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach((payment) => { %>
+                    <tr>
+                        <th scope="row"><%= payment.paymentId %></th>
+                        <td><%= payment.paymentTime.toLocaleDateString() %></td>
+                        <td><%= payment.fromAccId.name %></td>
+                        <td><%= payment.toAccId.name %></td>
+                        <td><%= payment.bankName %></td>
+                        <td><%= payment.bankPaymentId %></td>
+                        <td><%= payment.bankPaymentTime.toLocaleDateString() %></td>
+                        <td><%= payment.amount %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <!-- Add Button to enter new payment -->
 <!-- <% if((typeof acc_parent_type !== 'undefined' && acc_parent_type === 'students' )) { %>
