@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>IGNOU Award List</title>
+        <title>Award List</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="/stylesheets/main.css">
@@ -67,6 +67,12 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <% if(data.studentList.length < 25) { %>
+                            <% for(let index = data.studentList.length ; index <= 25 ; index++ ) { %>
+                                <div class="col-md-12" style="min-height: 0.8cm;"></div>
+                            <% } %>
+                        <% } %>
                     </div>
                 </div>
                 <div class="row">
@@ -79,7 +85,7 @@
                     <div class="col-6">Date :</div>
                     <div class="col-5">Date :</div>
                 </div>
-                <div class="row">
+                <div class="row ">
                     <div class="col-1"></div>
                     <div class="col-6">office stamp</div>
                     <div class="col-5">Name & Address :</div>
