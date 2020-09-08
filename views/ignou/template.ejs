@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="/stylesheets/main.css">
     </head>
     <body>
-        <% allData.forEach((data) => { %>
+        <% allData.forEach((data) => { let indexCounter = 0; %>
             <div class="container mt-5" style="page-break-after: always;">
                 <img src="/resources/static/images/logos/IGNOU.png" alt="" srcset="" class="rounded mx-auto d-block">
                 <p class="h1 text-center">INDIRA GANDHI NATIONAL OPEN UNIVERSITY</p>
@@ -63,16 +63,28 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <% }); %>
+                                    <% indexCounter = student.index}); %>
+                                    <% if(data.studentList.length < 25) { %>
+                                        <% for(let index = data.studentList.length ; index < 25 ; index++ ) { %>
+                                            <tr>
+                                                <td><%= ++indexCounter %></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
                                 </tbody>
                             </table>
                         </div>
 
-                        <% if(data.studentList.length < 25) { %>
+                        <!-- <% if(data.studentList.length < 25) { %>
                             <% for(let index = data.studentList.length ; index <= 25 ; index++ ) { %>
                                 <div class="col-md-12" style="min-height: 0.8cm;"></div>
                             <% } %>
-                        <% } %>
+                        <% } %> -->
                     </div>
                 </div>
                 <div class="row">
