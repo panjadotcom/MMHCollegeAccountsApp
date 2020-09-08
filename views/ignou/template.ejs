@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>IGNOU Award List</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head>
+    <body>
+        <% allData.forEach((data) => { %>
+            <div class="container mt-5" style="page-break-after: always;">
+                <img src="/resources/static/images/logos/IGNOU.png" alt="" srcset="" class="rounded mx-auto d-block">
+                <p class="h1 text-center">INDIRA GANDHI NATIONAL OPEN UNIVERSITY</p>
+                <p class="h3 text-center"> AWARD LIST FOR ASSIGNMENT</p>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <p class="text-center">(To be filled in triplicate)</p>
+                    </div>
+                    <div class="col-2"><strong>S.No.</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-8"><strong>Programme : <%= programCode %></strong></div>
+                    <div class="col-4"><strong>Course Code : <%= data.subjectCode %></strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-8"><strong>Study Centre :  M.M.H. College (2718)</strong></div>
+                    <div class="col-4"><strong>Assignment No. :</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-8"><strong>Place : Ghaziabad</strong></div>
+                    <div class="col-4"><strong>Maximum Marks :</strong></div>
+                </div>
+                <!-- Display Courses in tabular form -->
+                <div class="row my-5">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-sm" id="studentListDisplayTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-center">S.No.</th>
+                                        <th scope="col" class="text-center">Enrollment No.</th>
+                                        <th scope="col" class="text-center">Name of candidate</th>
+                                        <th scope="col" colspan="3" class="text-center">Award</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <th class="text-center">TMA01</th>
+                                        <th class="text-center">TMA02</th>
+                                        <th class="text-center">TMA03</th>
+                                    </tr>
+                                    <% data.studentList.forEach((student) => { %>
+                                    <tr>
+                                        <td><%= student.index %></td>
+                                        <th scope="row"><%= student.studentId %></th>
+                                        <td><%= student.name %></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-6"><strong>Signature of Coordinator :</strong></div>
+                    <div class="col-5"><strong>Signature of Evaluator :</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-6">Date :</div>
+                    <div class="col-5">Date :</div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-6">office stamp</div>
+                    <div class="col-5">Name & Address :</div>
+                </div>
+            </div><!-- /.container -->
+        <% }); %>
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS CDN -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 var express     = require("express");
 var router      = express.Router();
 var validator   = require("validator");
+var fs = require("fs");
 var Student     = require("../../models/student");
 var Degree     = require("../../models/degree");
 var Account     = require("../../models/account");
@@ -78,15 +79,15 @@ const flash = require("express-flash");
 // router.post("/upload",isLoggedIn, upload.single("xlsxfile"), (req,res) => {
 router.post("/upload", upload.single("xlsxfile"), (req,res) => {
     try {
-    let path = req.file.path;
-    console.log(path);
+    let filePath = req.file.path;
+    console.log(filePath);
     Degree.findById(req.body.degree, (err, degree) => {
         if (err) {
             console.log(err);
             req.flash("error", "Degree not found " + err.message);
             res.redirect("back");
         } else {
-            readXlsxFile(path).then((rows) => {
+            readXlsxFile(filePath).then((rows) => {
                 // skip header
                 //console.log(rows);
                 rows.shift();
@@ -120,6 +121,7 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
                     req.flash("error", "New " + docs.length + " Students entry created");
                 }
                 res.redirect("/students");
+                fs.unlinkSync(filePath);
             });
         });
         }

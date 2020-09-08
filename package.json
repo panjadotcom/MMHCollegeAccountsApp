@@ -28,6 +28,7 @@
     "read-excel-file": "^4.0.7",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
+    "sort-json-array": "^0.1.7",
     "validator": "^13.0.0"
   }
 }

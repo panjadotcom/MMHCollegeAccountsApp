@@ -21,6 +21,7 @@ var courseRoute    = require("./routes/courses");
 var degreeRoute    = require("./routes/degrees");
 var studentRoute    = require("./routes/students");
 var accountRoute    = require("./routes/accounts");
+var ignouRoute    = require("./routes/ignou");
 var paymentRoute    = require("./routes/payments");
 
 
@@ -70,6 +71,7 @@ app.use("/courses", courseRoute);
 app.use("/degrees", degreeRoute);
 app.use("/students", studentRoute);
 app.use("/accounts", accountRoute);
+app.use("/ignou", ignouRoute);
 app.use("/:acc_parent_type/:acc_parent_id/accounts", accountRoute);
 app.use("/accounts/:account_id/payments", paymentRoute);
 app.use("/:acc_parent_type/:acc_parent_id/accounts/:account_id/payments", paymentRoute);
