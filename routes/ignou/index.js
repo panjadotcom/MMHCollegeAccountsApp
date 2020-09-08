@@ -55,6 +55,7 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
             let counter = 0;
             
             let studentList = [];
+            const map = new Map();
             students.forEach(student => {
                 if (student.subjectCode === subjectCode) {
                     counter++;
@@ -63,12 +64,18 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
                         studentId : student.studentId,
                         name : student.name
                     }
-                    studentList.push(studentData);
+                    if (map.has(studentData.studentId)) {
+                        console.log("Duplicate entry for " + studentData.studentId);
+                    }
+                    else
+                    {
+                        map.set(studentData.studentId, true);
+                        studentList.push(studentData);
+                    }
                 }
             });
             // console.log(studentList.length);
             while (studentList.length > 0) {
-                let remainingLength = studentList.length;
                 let data = {
                     subjectCode : subjectCode,
                     studentList : studentList.splice(0,25)
@@ -76,26 +83,8 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
                 allData.push(data);
             }
         });
-        //console.log(allData);
-        //res.status(200).json(rows);
         res.render("ignou/template", { allData : allData , programCode : req.body.programCode });
         fs.unlinkSync(filePath);
-        // ejs.renderFile('views/ignou/template.ejs', { allData : allData }, (err, result) => {
-        //     if (err) {
-        //         console.log('info', 'error encountered: ' + err);
-        //         // throw err;
-        //     }
-        //     else {
-        //         try {
-        //             res.send(result);
-        //         } catch(err) {
-        //             if (err) {
-        //                 console.log(err);
-        //             }
-        //         }
-        
-        //     }
-        // });
     });
     } catch (error) {
         console.log(error);
