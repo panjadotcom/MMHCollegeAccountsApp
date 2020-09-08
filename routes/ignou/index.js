@@ -22,6 +22,12 @@ router.get("/", (req, res) => {
     }
 });
 
+router.get("/download", (req, res) => {
+    const file = `public/resources/static/standard/xlsx/STANDARD-IGNOU.xlsx`;
+    res.download(file);
+});
+
+
 router.post("/upload", upload.single("xlsxfile"), (req,res) => {
     try {
     let filePath = req.file.path;
