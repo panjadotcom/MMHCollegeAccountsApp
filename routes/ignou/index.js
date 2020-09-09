@@ -8,17 +8,12 @@ const { render } = require("ejs");
 const { log } = require("console");
 // INDEX Show all Accounts.
 router.get("/", (req, res) => {
-    const today = new Date();
-    const keyToMatch = "" + today.getFullYear() + today.getMonth() + today.getDate();
-    //console.log(keyToMatch);
     const user = req.query.user;
-    const key = req.query.key;
-    if ( (user === "Ankur") && (key === keyToMatch) ){
+    if ( user === "Ankur"){
         // do the work
         res.render("ignou/index");
     } else {
-        console.log("Wrong user credentials, user = " + user + " and key = " + key + " (matching to " + keyToMatch + " )");
-        res.status(500).json( {"Error" : "Wrong input", "Message" : "User or key not matched"} )
+        res.status(500).json( {"Error" : "Wrong input", "Message" : "User not matched"} )
     }
 });
 
