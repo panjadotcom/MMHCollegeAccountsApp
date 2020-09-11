@@ -47,13 +47,12 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
         // console.log(distinctSubjectCodes);
         let allData = [];
         distinctSubjectCodes.forEach((subjectCode) => {
-            let counter = 0;
+            let counter = 1;
             
             let studentList = [];
             const map = new Map();
             students.forEach(student => {
                 if (student.subjectCode === subjectCode) {
-                    counter++;
                     let studentData = {
                         index : counter,
                         studentId : student.studentId,
@@ -66,6 +65,7 @@ router.post("/upload", upload.single("xlsxfile"), (req,res) => {
                     {
                         map.set(studentData.studentId, true);
                         studentList.push(studentData);
+                        counter++;
                     }
                 }
             });
